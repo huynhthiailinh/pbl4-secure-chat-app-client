@@ -3,9 +3,9 @@ import { Form, Input, Button, Divider, notification } from "antd";
 import {
   UserOutlined,
   LockOutlined,
-  DingtalkOutlined,
   FacebookFilled,
 } from "@ant-design/icons";
+import logo from "../assets/images/logo.png"
 import { login, facebookLogin } from "../util/ApiUtil";
 import "./Signin.css";
 import {useRecoilState} from "recoil";
@@ -107,7 +107,7 @@ const Signin = (props) => {
 
   return (
     <div className="login-container">
-      <DingtalkOutlined style={{ fontSize: 50 }} />
+      <img src={logo} alt={logo} className="login-logo" />
       <Form
         name="normal_login"
         className="login-form"
@@ -119,6 +119,7 @@ const Signin = (props) => {
           rules={[{ required: true, message: "Please input your Username!" }]}
         >
           <Input
+            className="login-input"
             size="large"
             prefix={<UserOutlined className="site-form-item-icon" />}
             placeholder="Username"
@@ -129,6 +130,7 @@ const Signin = (props) => {
           rules={[{ required: true, message: "Please input your Password!" }]}
         >
           <Input
+            className="login-input"
             size="large"
             prefix={<LockOutlined className="site-form-item-icon" />}
             type="password"
@@ -140,7 +142,7 @@ const Signin = (props) => {
             shape="round"
             size="large"
             htmlType="submit"
-            className="login-form-button"
+            className="login-button"
             loading={loading}
           >
             Log in
@@ -151,7 +153,7 @@ const Signin = (props) => {
           <Button
             icon={<FacebookFilled style={{ fontSize: 20 }} />}
             loading={facebookLoading}
-            className="login-with-facebook"
+            className="login-button"
             shape="round"
             size="large"
             onClick={getFacebookAccessToken}
@@ -159,7 +161,7 @@ const Signin = (props) => {
             Log in With Facebook
           </Button>
         </Form.Item>
-        Not a member yet? <a href="/signup">Sign up</a>
+        Not a member yet? <a href="/signup" className="login-text">Sign up</a>
       </Form>
     </div>
   );
