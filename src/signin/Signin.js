@@ -5,7 +5,7 @@ import {
   LockOutlined,
   FacebookFilled,
 } from "@ant-design/icons";
-import logo from "../assets/images/logo.png"
+import logo from "../assets/images/logo.png";
 import { login, facebookLogin } from "../util/ApiUtil";
 import "./Signin.css";
 import {useRecoilState} from "recoil";
