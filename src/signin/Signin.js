@@ -85,7 +85,7 @@ const Signin = (props) => {
       .then((response) => {
         localStorage.setItem("accessToken", response.token);
         setLoggedInUser(response);
-        props.history.push("/");
+        props.history.push("/chat");
         setLoading(false);
       })
       .catch((error) => {
@@ -145,7 +145,7 @@ const Signin = (props) => {
             className="login-button"
             loading={loading}
           >
-            Log in
+            Sign In
           </Button>
         </Form.Item>
         <Divider>OR</Divider>
@@ -158,10 +158,10 @@ const Signin = (props) => {
             size="large"
             onClick={getFacebookAccessToken}
           >
-            Log in With Facebook
+            Sign In With Facebook
           </Button>
         </Form.Item>
-        Not a member yet? <a href="/signup" className="login-text">Sign up</a>
+        Not a member yet? <a href="/signup" className="login-text">Sign Up</a>
       </Form>
     </div>
   );

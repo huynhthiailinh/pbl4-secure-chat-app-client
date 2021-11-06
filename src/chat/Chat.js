@@ -14,6 +14,9 @@ import {
 } from "../atom/globalState";
 import ScrollToBottom from "react-scroll-to-bottom";
 import "./Chat.css";
+import bi from "../../src/assets/images/avatars/bi.jpg"
+import cho from "../../src/assets/images/avatars/cho.jpg"
+import meo from "../../src/assets/images/avatars/meo.jpeg"
 
 var stompClient = null;
 const Chat = (props) => {
@@ -124,11 +127,12 @@ const Chat = (props) => {
           <div className="wrap">
             <img
               id="profile-img"
-              src={currentUser.avatar}
+              // src={currentUser.avatar}
+              src={bi}
               className="online"
               alt=""
             />
-            <p>{currentUser.fullName}</p>
+            <div>{currentUser.fullName}</div>
             <div id="status-options">
               <ul>
                 <li id="status-online" className="active">
@@ -147,7 +151,6 @@ const Chat = (props) => {
             </div>
           </div>
         </div>
-        <div id="search" />
         <div id="contacts">
           <ul>
             {contacts.map((contact) => (
@@ -161,9 +164,14 @@ const Chat = (props) => {
               >
                 <div className="wrap">
                   <span className="contact-status online"></span>
-                  <img id={contact.id} src={contact.avatar} alt="" />
+                  <img
+                    id={contact.id}
+                    // src={contact.avatar}
+                    src={cho}
+                    alt=""
+                    className="contact-img" />
                   <div className="meta">
-                    <p className="name">{contact.fullName}</p>
+                    <div className="name">{contact.fullName}</div>
                     {contact.newMessages !== undefined &&
                       contact.newMessages > 0 && (
                         <p className="preview">
@@ -189,8 +197,11 @@ const Chat = (props) => {
       </div>
       <div className="content">
         <div className="contact-profile">
-          <img src={activeContact && activeContact.avatar} alt="" />
-          <p>{activeContact && activeContact.fullName}</p>
+          <img
+            // src={activeContact && activeContact.avatar}
+            src={meo}
+            alt="" className="active-img" />
+          <div>{activeContact && activeContact.fullName}</div>
         </div>
         <ScrollToBottom className="messages">
           <ul>
@@ -207,6 +218,7 @@ const Chat = (props) => {
         <div className="message-input">
           <div className="wrap">
             <input
+              className="write-message-input"
               name="user_input"
               size="large"
               placeholder="Write your message..."
@@ -221,6 +233,7 @@ const Chat = (props) => {
             />
 
             <Button
+              className="send-button"
               icon={<i className="fa fa-paper-plane" aria-hidden="true"></i>}
               onClick={() => {
                 sendMessage(text);
