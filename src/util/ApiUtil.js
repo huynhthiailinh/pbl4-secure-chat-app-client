@@ -63,13 +63,13 @@ export function getCurrentUser() {
   });
 }
 
-export function getUsers() {
+export function getUsers(accountId) {
   if (!localStorage.getItem("accessToken")) {
     return Promise.reject("No access token set.");
   }
 
   return request({
-    url: AUTH_SERVICE + "accounts/summaries",
+    url: AUTH_SERVICE + "accounts/summaries/" + accountId,
     method: "GET",
   });
 }

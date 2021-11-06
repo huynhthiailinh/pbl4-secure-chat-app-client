@@ -28,7 +28,7 @@ const Chat = (props) => {
 
   useEffect(() => {
     if (activeContact === undefined) return;
-    findChatMessages(activeContact.id, currentUser.id).then((msgs) => {
+    findChatMessages(currentUser.id, activeContact.id).then((msgs) => {
       console.log("xx: ", msgs)
       setMessages(msgs)
     }
@@ -101,7 +101,7 @@ const Chat = (props) => {
   };
 
   const loadContacts = () => {
-    const promise = getUsers().then((users) =>
+    const promise = getUsers(currentUser.id).then((users) =>
       users.map((contact) =>
         countNewMessages(contact.id, currentUser.id).then((count) => {
           contact.newMessages = count;
