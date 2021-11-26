@@ -1,25 +1,28 @@
 #frame {
+  background-color: #ffffff;
   display: flex;
 }
 
 #frame #sidepanel {
-  width: 25%;
+  width: calc(25% - 1px);
   height: 100vh;
   border-right: 1px solid indianred;
 }
 
 #frame #sidepanel #profile {
-  background-color: #ffffff;
   color: indianred;
-  height: 10%;
+  height: calc(10% - 1px);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
   font-size: large;
   font-weight: bold;
   border-bottom: 1px solid indianred;
-  padding: 20px;
+  padding-left: 10px;
 }
 
 #frame #sidepanel #profile.expanded .wrap {
-  height: 210px;
   line-height: initial;
 }
 
@@ -32,10 +35,10 @@
   -ms-filter: "FlipH";
 }
 #frame #sidepanel #profile .wrap {
-  width: 100%;
   display: flex;
-  justify-content: flex-start;
   align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
 #frame #sidepanel #profile .wrap img {
@@ -45,7 +48,6 @@
   object-fit: cover;
   border: 2px solid #e74c3c;
   cursor: pointer;
-  margin-right: 10px;
 }
 
 #frame #sidepanel #profile .wrap img.online {
@@ -311,7 +313,7 @@ span.status-circle:before {
 }
 
 #frame #sidepanel #contacts {
-  height: 79%;
+  height: 74%;
 }
 
 #frame #sidepanel #contacts.expanded {
@@ -353,15 +355,15 @@ span.status-circle:before {
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  gap: 5px;
   margin: 0 auto;
   position: relative;
-  padding: 10px;
 }
 
 #frame #sidepanel #contacts ul li.contact .wrap span {
   position: absolute;
   left: 0;
-  margin: -2px 0 0 -2px;
+  margin: -25px 0 0 30px;
   width: 10px;
   height: 10px;
   border-radius: 50%;
@@ -388,11 +390,6 @@ span.status-circle:before {
   object-fit: cover;
   border: 2px solid #e74c3c;
   cursor: pointer;
-  margin-right: 10px;
-}
-
-#frame #sidepanel #contacts ul li.contact .wrap .meta {
-  padding: 5px 0 0 0;
 }
 
 #frame #sidepanel #contacts ul li.contact .wrap .meta .name {
@@ -424,20 +421,22 @@ span.status-circle:before {
 }
 
 #frame #sidepanel #bottom-bar {
-  height: 10%;
+  height: 15%;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
   padding: 10px;
-  justify-content: space-between;
+  gap: 5px;
 }
 #frame #sidepanel #bottom-bar button {
+  width: 100%;
   background-color: #ffffff;
   color: indianred;
   font-size: medium;
-  border: none;
   border-radius: 5px;
   border: 1px solid indianred;
-  padding: 5px;
+  padding: 2px;
   cursor: pointer;
   transition: all 0.5s;
 }
@@ -459,6 +458,7 @@ span.status-circle:before {
 
 #frame .content {
   float: right;
+  height: 100vh;
   width: 75%;
   overflow: hidden;
   position: relative;
@@ -467,7 +467,7 @@ span.status-circle:before {
 #frame .content .contact-profile {
   background-color: #ffffff;
   color: indianred;
-  height: 10%;
+  height: calc(10% - 1px);
   width: 100%;
   display: flex;
   justify-content: flex-start;
@@ -475,7 +475,8 @@ span.status-circle:before {
   font-size: large;
   font-weight: bold;
   border-bottom: 1px solid indianred;
-  padding: 20px;
+  padding-left: 20px;
+  gap: 10px;
 }
 #frame .content .contact-profile img {
   width: 40px;
@@ -483,7 +484,6 @@ span.status-circle:before {
   border-radius: 50%;
   object-fit: cover;
   cursor: pointer;
-  margin-right: 10px;
 }
 #frame .content .contact-profile p {
   float: left;
@@ -502,17 +502,25 @@ span.status-circle:before {
   color: #435f7a;
 }
 #frame .content .messages {
-  height: 600px;
-  min-height: calc(100% - 93px);
-  max-height: calc(100% - 93px);
+  height: 74%;
   overflow-y: scroll;
   overflow-x: hidden;
   width: 100%;
+  padding: 5px;
 }
 @media screen and (max-width: 735px) {
   #frame .content .messages {
     max-height: calc(100% - 105px);
   }
+}
+.css-1qyrjaz {
+  background-color: #ffccbc;
+  width: 100px;
+  height: 50px;
+  outline: none;
+}
+.css-1qyrjaz::before {
+  content: "Scroll to bottom";
 }
 #frame .content .messages::-webkit-scrollbar {
   width: 8px;
@@ -524,16 +532,11 @@ span.status-circle:before {
 #frame .content .messages ul li {
   display: inline-block;
   clear: both;
-  float: left;
-  margin: 15px 15px 5px 15px;
-  width: calc(100% - 25px);
+  width: 100%;
   font-size: 0.9em;
 }
-#frame .content .messages ul li:nth-last-child(1) {
-  margin-bottom: 20px;
-}
 #frame .content .messages ul li.replies img {
-  margin: 6px 8px 0 0;
+  margin-right: 5px;
 }
 #frame .content .messages ul li.replies p {
   word-break: break-all;
@@ -542,7 +545,7 @@ span.status-circle:before {
 }
 #frame .content .messages ul li.sent img {
   float: right;
-  margin: 6px 0 0 8px;
+  margin-left: 5px;
 }
 #frame .content .messages ul li.sent p {
   word-break: break-all;
@@ -572,21 +575,22 @@ span.status-circle:before {
   bottom: 0 !important;
   width: 100%;
   z-index: 99;
-  padding: 20px;
+  padding: 10px;
 }
 #frame .content .message-input .wrap {
   position: relative;
   display: flex;
+  gap: 10px;
 }
 #frame .content .message-input .wrap input {
   float: left;
-  border: none;
   width: calc(100% - 51px);
   border: 1px solid indianred;
-  padding: 10px;
+  border-radius: 5px;
   font-size: 0.8em;
   color: #32465a;
   font-size: 16px;
+  padding: 10px;
 }
 
 #frame .content .message-input .wrap input:focus {
@@ -609,10 +613,10 @@ span.status-circle:before {
   float: right;
   cursor: pointer;
   width: 50px;
-  height: 46px;
+  height: 47.14px;
+  border-radius: 5px;
   border: 1px solid indianred;
   color: indianred;
-  margin-left: 10px;
 }
 @media screen and (max-width: 735px) {
   #frame .content .message-input .wrap button {
@@ -620,7 +624,7 @@ span.status-circle:before {
   }
 }
 #frame .content .message-input .wrap button:hover {
-  background: #435f7a;
+  background: #ffccbc;
 }
 #frame .content .message-input .wrap button:focus {
   outline: none;
