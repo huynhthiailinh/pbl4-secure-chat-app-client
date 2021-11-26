@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Card, Avatar } from "antd";
 import { useRecoilState } from "recoil";
 import { loggedInUser } from "../atom/globalState";
-import { LogoutOutlined } from "@ant-design/icons";
+import { LogoutOutlined, MessageOutlined } from "@ant-design/icons";
 import "./Profile.css";
 
 const { Meta } = Card;
@@ -20,11 +20,17 @@ const Profile = (props) => {
     props.history.push("/login");
   };
 
+  const chat = () => {
+    props.history.push("/chat");
+  };
+
   return (
     <div className="profile-container">
       <Card
-        style={{ width: 420, border: "1px solid #e1e0e0" }}
-        actions={[<LogoutOutlined onClick={logout} />]}
+        actions={[
+          <MessageOutlined onClick={chat} />,
+          <LogoutOutlined onClick={logout} />
+        ]}
       >
         <Meta
           avatar={
