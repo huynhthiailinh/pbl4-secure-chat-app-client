@@ -20,7 +20,7 @@ const Signup = (props) => {
         notification.success({
           message: "Success",
           description:
-            "Thank you! You're successfully registered. Please Login to continue!",
+            "A verification email has been sent to your email address!",
         });
         props.history.push("/login");
         setLoading(false);

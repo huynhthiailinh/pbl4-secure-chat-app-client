@@ -4,6 +4,7 @@ import Signin from "./signin/Signin";
 import Signup from "./signup/Signup";
 import Profile from "./profile/Profile";
 import Chat from "./chat/Chat";
+import EmailVerification from "./verification/EmailVerification"
 import "./App.css";
 
 export const AppContext = React.createContext();
@@ -24,6 +25,7 @@ const App = (props) => {
             render={(props) => <Signup {...props} />}
           />
           <Route exact path="/chat" render={(props) => <Chat {...props} />} />
+          <Route exact path="/active-email" render={(props) => <EmailVerification {...props} />} />
         </Switch>
       </BrowserRouter>
     </div>

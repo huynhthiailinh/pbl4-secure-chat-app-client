@@ -1,4 +1,5 @@
 const AUTH_SERVICE = "http://localhost:8080/api/";
+const PUBLIC_SERVICE = "http://localhost:8080/api/public/";
 const CHAT_SERVICE = "http://localhost:8080";
 
 const request = (options) => {
@@ -103,6 +104,13 @@ export function findChatMessage(id) {
 
   return request({
     url: CHAT_SERVICE + "/messages/" + id,
+    method: "GET",
+  });
+}
+
+export function getEmailVerificationMessage(token) {
+  return request({
+    url: PUBLIC_SERVICE + "active-email?token=" + token,
     method: "GET",
   });
 }
