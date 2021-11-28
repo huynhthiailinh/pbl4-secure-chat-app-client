@@ -29,6 +29,17 @@ const request = (options) => {
   );
 };
 
+function getToken() {
+  if (isLogin()) {
+    let token = localStorage.getItem("accessToken")
+    return token
+  }
+}
+
+const isLogin = () => {
+  return !!localStorage.getItem("accessToken")
+}
+
 export function login(loginRequest) {
   return request({
     url: AUTH_SERVICE + "auth/sign-in",
@@ -113,4 +124,25 @@ export function getEmailVerificationMessage(token) {
     url: PUBLIC_SERVICE + "active-email?token=" + token,
     method: "GET",
   });
+}
+
+export function uploadAvatar(body) {
+  if (!localStorage.getItem("accessToken")) {
+    return Promise.reject("No access token set.");
+  }
+
+  return fetch(
+    AUTH_SERVICE + "accounts/upload-avatar",
+    {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + getToken(),
+      },
+      body: body
+    })
+    .then((response) => response.text())
+}
+
+export function getImage(url) {
+  return PUBLIC_SERVICE + "images/getImage/" + url
 }
