@@ -32,7 +32,7 @@ const Chat = (props) => {
       console.log("xx: ", msgs)
       setMessages(msgs)
     }
-  );
+    );
     loadContacts();
   }, [activeContact]);
 
@@ -120,6 +120,10 @@ const Chat = (props) => {
     );
   };
 
+  const profile = () => {
+    props.history.push("/");
+  };
+
   return (
     <div id="frame">
       <div id="sidepanel">
@@ -185,7 +189,7 @@ const Chat = (props) => {
           </ul>
         </div>
         <div id="bottom-bar">
-          <button id="addcontact">
+          <button id="addcontact" onClick={profile}>
             <i className="fa fa-user fa-fw" aria-hidden="true"></i>{" "}
             <span>Profile</span>
           </button>
