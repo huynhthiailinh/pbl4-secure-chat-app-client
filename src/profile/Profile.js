@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { Card, Avatar, Form, Input } from "antd";
+import { Card, Avatar, Form, Input, Upload } from "antd";
 import { useRecoilState } from "recoil";
 import { loggedInUser } from "../atom/globalState";
-import { LogoutOutlined, MessageOutlined } from "@ant-design/icons";
+import { EditOutlined, LogoutOutlined, MessageOutlined } from "@ant-design/icons";
 import "./Profile.css";
+import cho from "./../../src/assets/images/avatars/cho.jpg"
+import ImgCrop from 'antd-img-crop'
+import { getImage, uploadAvatar } from "../util/ApiUtil"
 
 const { Meta } = Card;
 
 const Profile = (props) => {
   const [showEditProfile, setShowEditProfile] = useState(false);
   const [showChangePassword, setShowChangePassword] = useState(false);
-  const [currentUser] = useRecoilState(loggedInUser);
+  const [currentUser, setLoggedInUser] = useRecoilState(loggedInUser);
 
   useEffect(() => {
     if (localStorage.getItem("accessToken") === null) {
@@ -26,6 +29,18 @@ const Profile = (props) => {
   const chat = () => {
     props.history.push("/chat");
   };
+
+  const onChangeAvatar = (e) => {
+    const formData = new FormData()
+    formData.append("type", "avatar")
+    formData.append("id", currentUser.id)
+    formData.append("multipartFile", e.file)
+    uploadAvatar(formData).then(res => {
+      const data = Object.assign({}, currentUser)
+      data.avatar = res
+      setLoggedInUser(data)
+    })
+  }
 
   const Description = () => {
     return (
@@ -66,10 +81,20 @@ const Profile = (props) => {
       >
         <Meta
           avatar={
-            <Avatar
-              src={currentUser.avatar}
-              className="user-avatar-circle"
-            />
+            <ImgCrop rotate>
+              <Upload
+                showUploadList={false}
+                customRequest={onChangeAvatar}
+              >
+                <div className="upload-button">
+                  <EditOutlined />
+                </div>
+                <Avatar
+                  src={currentUser.avatar ? getImage(currentUser.avatar) : cho}
+                  className="user-avatar-circle"
+                />
+              </Upload>
+            </ImgCrop>
           }
           title={currentUser.fullName}
           description={<Description />}

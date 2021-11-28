@@ -40,6 +40,7 @@
     ]
   },
   "devDependencies": {
+    "antd-img-crop": "^3.16.0",
     "recoil-persist": "^0.6.0"
   }
 }

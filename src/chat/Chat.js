@@ -4,7 +4,7 @@ import {
   getUsers,
   countNewMessages,
   findChatMessages,
-  findChatMessage,
+  findChatMessage, getImage,
 } from "../util/ApiUtil";
 import { useRecoilValue, useRecoilState } from "recoil";
 import {
@@ -14,9 +14,7 @@ import {
 } from "../atom/globalState";
 import ScrollToBottom from "react-scroll-to-bottom";
 import "./Chat.css";
-import bi from "../../src/assets/images/avatars/bi.jpg"
-import cho from "../../src/assets/images/avatars/cho.jpg"
-import meo from "../../src/assets/images/avatars/meo.jpeg"
+import dog from "./../assets/images/avatars/cho.jpg"
 
 var stompClient = null;
 const Chat = (props) => {
@@ -131,8 +129,7 @@ const Chat = (props) => {
           <div className="wrap">
             <img
               id="profile-img"
-              // src={currentUser.avatar}
-              src={bi}
+              src={currentUser?.avatar ? getImage(currentUser?.avatar) : dog}
               className="online"
               alt=""
             />
@@ -170,8 +167,7 @@ const Chat = (props) => {
                   <span className="contact-status online"></span>
                   <img
                     id={contact.id}
-                    // src={contact.avatar}
-                    src={cho}
+                    src={contact.avatar ? getImage(contact.avatar) : dog}
                     alt=""
                     className="contact-img" />
                   <div className="meta">
@@ -202,8 +198,7 @@ const Chat = (props) => {
       <div className="content">
         <div className="contact-profile">
           <img
-            // src={activeContact && activeContact.avatar}
-            src={meo}
+            src={activeContact?.avatar ? getImage(activeContact?.avatar) : dog}
             alt="" className="active-img" />
           <div>{activeContact && activeContact.fullName}</div>
         </div>
