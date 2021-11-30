@@ -314,6 +314,19 @@ span.status-circle:before {
 
 #frame #sidepanel #contacts {
   height: 74%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+#frame #sidepanel #contacts .search {
+  width: 100%;
+  padding: 5px;
+}
+
+#frame #sidepanel #contacts .ant-input-affix-wrapper,
+#frame #sidepanel #contacts .ant-input-group-addon .ant-btn {
+  border-color: indianred;
+  height: 40px;
 }
 
 #frame #sidepanel #contacts.expanded {
