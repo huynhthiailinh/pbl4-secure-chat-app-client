@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, message } from "antd";
+import { Button, message, Input } from "antd";
 import {
   getUsers,
   countNewMessages,
@@ -17,6 +17,7 @@ import "./Chat.css";
 import dog from "./../assets/images/avatars/cho.jpg"
 
 var stompClient = null;
+const { Search } = Input
 const Chat = (props) => {
   const currentUser = useRecoilValue(loggedInUser);
   const [text, setText] = useState("");
@@ -160,37 +161,44 @@ const Chat = (props) => {
           </div>
         </div>
         <div id="contacts">
-          <ul>
-            {contacts.map((contact, index) => (
-              <li
-                key={index}
-                onClick={() => setActiveContact(contact)}
-                className={
-                  activeContact && contact.id === activeContact.id
-                    ? "contact active"
-                    : "contact"
-                }
-              >
-                <div className="wrap">
-                  <span className="contact-status online"></span>
-                  <img
-                    id={contact.id}
-                    src={contact.avatar ? getImage(contact.avatar) : dog}
-                    alt=""
-                    className="contact-img" />
-                  <div className="meta">
-                    <div className="name">{contact.fullName}</div>
-                    {contact.newMessages !== undefined &&
-                      contact.newMessages > 0 && (
-                        <p className="preview">
-                          {contact.newMessages} new messages
-                        </p>
-                      )}
+          <Search
+            className="search"
+            placeholder="Search someone.."
+            allowClear
+          />
+          <ScrollToBottom>
+            <ul>
+              {contacts.map((contact, index) => (
+                <li
+                  key={index}
+                  onClick={() => setActiveContact(contact)}
+                  className={
+                    activeContact && contact.id === activeContact.id
+                      ? "contact active"
+                      : "contact"
+                  }
+                >
+                  <div className="wrap">
+                    <span className="contact-status online"></span>
+                    <img
+                      id={contact.id}
+                      src={contact.avatar ? getImage(contact.avatar) : dog}
+                      alt=""
+                      className="contact-img" />
+                    <div className="meta">
+                      <div className="name">{contact.fullName}</div>
+                      {contact.newMessages !== undefined &&
+                        contact.newMessages > 0 && (
+                          <p className="preview">
+                            {contact.newMessages} new messages
+                          </p>
+                        )}
+                    </div>
                   </div>
-                </div>
-              </li>
-            ))}
-          </ul>
+                </li>
+              ))}
+            </ul>
+          </ScrollToBottom>
         </div>
         <div id="bottom-bar">
           <button id="addcontact" onClick={profile}>
