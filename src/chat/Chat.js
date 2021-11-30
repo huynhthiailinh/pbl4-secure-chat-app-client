@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, message, Input } from "antd";
+import { Button, message, Input, Upload } from "antd";
 import {
   getUsers,
   countNewMessages,
@@ -232,6 +232,12 @@ const Chat = (props) => {
         </ScrollToBottom>
         <div className="message-input">
           <div className="wrap">
+            <Upload>
+              <Button
+                className="send-button"
+                icon={<i className="far fa-image" aria-hidden="true"></i>}
+              />
+            </Upload>
             <input
               className="write-message-input"
               name="user_input"
@@ -246,7 +252,6 @@ const Chat = (props) => {
                 }
               }}
             />
-
             <Button
               className="send-button"
               icon={<i className="fa fa-paper-plane" aria-hidden="true"></i>}
