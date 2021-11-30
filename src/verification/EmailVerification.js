@@ -27,7 +27,7 @@ function EmailVerification() {
           setMessage("Something went wrong, please try again!")
       }
     })
-  }, [])
+  }, [token])
 
   return (
     <div className="container verification-wrapper">

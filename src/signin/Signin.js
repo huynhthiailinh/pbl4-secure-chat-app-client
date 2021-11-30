@@ -3,28 +3,31 @@ import { Form, Input, Button, Divider, notification } from "antd";
 import {
   UserOutlined,
   LockOutlined,
-  FacebookFilled,
+  // FacebookFilled,
 } from "@ant-design/icons";
 import logo from "../assets/images/logo.png";
+// eslint-disable-next-line no-unused-vars
 import { login, facebookLogin } from "../util/ApiUtil";
 import "./Signin.css";
-import {useRecoilState} from "recoil";
-import {loggedInUser} from "../atom/globalState";
+import { useRecoilState } from "recoil";
+import { loggedInUser } from "../atom/globalState";
 
 /*global FB*/
 
 const Signin = (props) => {
   const [loading, setLoading] = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [currentUser, setLoggedInUser] = useRecoilState(loggedInUser);
-  const [facebookLoading, setFacebookLoading] = useState(false);
+  // const [facebookLoading, setFacebookLoading] = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [test, setTest] = useState(localStorage.getItem("accessToken"));
 
   useEffect(() => {
     if (localStorage.getItem("accessToken") !== null) {
-      props.history.push("/");
+      props.history.push("/signin");
     }
     initFacebookLogin();
-  }, []);
+  }, [props.history]);
 
   useEffect(() => {
     initFacebookLogin();
@@ -41,43 +44,43 @@ const Signin = (props) => {
     };
   };
 
-  const getFacebookAccessToken = () => {
-    setFacebookLoading(true);
-    FB.login(
-      function (response) {
-        if (response.status === "connected") {
-          const facebookLoginRequest = {
-            accessToken: response.authResponse.accessToken,
-          };
-          facebookLogin(facebookLoginRequest)
-            .then((response) => {
-              localStorage.setItem("accessToken", response.accessToken);
-              props.history.push("/");
-              setFacebookLoading(false);
-            })
-            .catch((error) => {
-              if (error.status === 401) {
-                notification.error({
-                  message: "Error",
-                  description: "Invalid credentials",
-                });
-              } else {
-                notification.error({
-                  message: "Error",
-                  description:
-                    error.message ||
-                    "Sorry! Something went wrong. Please try again!",
-                });
-              }
-              setFacebookLoading(false);
-            });
-        } else {
-          console.log(response);
-        }
-      },
-      { scope: "email" }
-    );
-  };
+  // const getFacebookAccessToken = () => {
+  //   setFacebookLoading(true);
+  //   FB.login(
+  //     function (response) {
+  //       if (response.status === "connected") {
+  //         const facebookLoginRequest = {
+  //           accessToken: response.authResponse.accessToken,
+  //         };
+  //         facebookLogin(facebookLoginRequest)
+  //           .then((response) => {
+  //             localStorage.setItem("accessToken", response.accessToken);
+  //             props.history.push("/");
+  //             setFacebookLoading(false);
+  //           })
+  //           .catch((error) => {
+  //             if (error.status === 401) {
+  //               notification.error({
+  //                 message: "Error",
+  //                 description: "Invalid credentials",
+  //               });
+  //             } else {
+  //               notification.error({
+  //                 message: "Error",
+  //                 description:
+  //                   error.message ||
+  //                   "Sorry! Something went wrong. Please try again!",
+  //               });
+  //             }
+  //             setFacebookLoading(false);
+  //           });
+  //       } else {
+  //         console.log(response);
+  //       }
+  //     },
+  //     { scope: "email" }
+  //   );
+  // };
 
   const onFinish = (values) => {
     setLoading(true);
@@ -85,7 +88,7 @@ const Signin = (props) => {
       .then((response) => {
         localStorage.setItem("accessToken", response.token);
         setLoggedInUser(response);
-        props.history.push("/chat");
+        props.history.push("/");
         setLoading(false);
       })
       .catch((error) => {
@@ -149,7 +152,7 @@ const Signin = (props) => {
           </Button>
         </Form.Item>
         <Divider>OR</Divider>
-        <Form.Item>
+        {/* <Form.Item>
           <Button
             icon={<FacebookFilled style={{ fontSize: 20 }} />}
             loading={facebookLoading}
@@ -160,7 +163,7 @@ const Signin = (props) => {
           >
             Sign In With Facebook
           </Button>
-        </Form.Item>
+        </Form.Item> */}
         Not a member yet? <a href="/signup" className="login-text">Sign Up</a>
       </Form>
     </div>

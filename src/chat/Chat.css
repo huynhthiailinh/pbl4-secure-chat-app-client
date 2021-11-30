@@ -522,6 +522,9 @@ span.status-circle:before {
 .css-1qyrjaz::before {
   content: "Scroll to bottom";
 }
+.css-1qyrjaz:hover {
+  background-color: #ffccbc;
+}
 #frame .content .messages::-webkit-scrollbar {
   width: 8px;
   background: transparent;
@@ -537,6 +540,10 @@ span.status-circle:before {
 }
 #frame .content .messages ul li.replies img {
   margin-right: 5px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 #frame .content .messages ul li.replies p {
   word-break: break-all;

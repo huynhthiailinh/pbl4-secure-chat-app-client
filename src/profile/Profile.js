@@ -17,17 +17,17 @@ const Profile = (props) => {
 
   useEffect(() => {
     if (localStorage.getItem("accessToken") === null) {
-      props.history.push("/login");
+      props.history.push("/signin");
     }
-  }, []);
+  }, [props.history]);
 
   const logout = () => {
     localStorage.removeItem("accessToken");
-    props.history.push("/login");
+    props.history.push("/signin");
   };
 
   const chat = () => {
-    props.history.push("/chat");
+    props.history.push("/");
   };
 
   const onChangeAvatar = (e) => {
