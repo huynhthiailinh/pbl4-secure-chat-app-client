@@ -11,7 +11,7 @@ const Signup = (props) => {
     if (localStorage.getItem("accessToken") !== null) {
       props.history.push("/");
     }
-  }, []);
+  }, [props.history]);
 
   const onFinish = (values) => {
     setLoading(true);
@@ -22,7 +22,7 @@ const Signup = (props) => {
           description:
             "A verification email has been sent to your email address!",
         });
-        props.history.push("/login");
+        props.history.push("/signin");
         setLoading(false);
       })
       .catch((error) => {
@@ -79,7 +79,7 @@ const Signup = (props) => {
             Signup
           </Button>
         </Form.Item>
-        Already a member? <a href="/login" className="login-text">Log in</a>
+        Already a member? <a href="/signin" className="login-text">Log in</a>
       </Form>
     </div>
   );

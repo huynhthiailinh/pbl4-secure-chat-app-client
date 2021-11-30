@@ -27,19 +27,21 @@ const Chat = (props) => {
   useEffect(() => {
     if (activeContact === undefined) return;
     findChatMessages(currentUser.id, activeContact.id).then((msgs) => {
-      console.log("xx: ", msgs)
+      // console.log("xx: ", msgs)
       setMessages(msgs)
     }
     );
     loadContacts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeContact]);
 
   useEffect(() => {
     if (localStorage.getItem("accessToken") === null) {
-      props.history.push("/login");
+      props.history.push("/signin");
     }
     connect();
     loadContacts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const connect = () => {
@@ -51,8 +53,8 @@ const Chat = (props) => {
   };
 
   const onConnected = () => {
-    console.log("connected");
-    console.log(currentUser);
+    // console.log("connected");
+    // console.log(currentUser);
     stompClient.subscribe(
       "/user/" + currentUser.id + "/queue/messages",
       onMessageReceived
@@ -119,7 +121,12 @@ const Chat = (props) => {
   };
 
   const profile = () => {
-    props.history.push("/");
+    props.history.push("/profile");
+  };
+
+  const signout = () => {
+    localStorage.removeItem("accessToken");
+    props.history.push("/signin");
   };
 
   return (
@@ -154,8 +161,9 @@ const Chat = (props) => {
         </div>
         <div id="contacts">
           <ul>
-            {contacts.map((contact) => (
+            {contacts.map((contact, index) => (
               <li
+                key={index}
                 onClick={() => setActiveContact(contact)}
                 className={
                   activeContact && contact.id === activeContact.id
@@ -189,9 +197,9 @@ const Chat = (props) => {
             <i className="fa fa-user fa-fw" aria-hidden="true"></i>{" "}
             <span>Profile</span>
           </button>
-          <button id="settings">
-            <i className="fa fa-cog fa-fw" aria-hidden="true"></i>{" "}
-            <span>Settings</span>
+          <button id="settings" onClick={signout}>
+            <i className="fas fa-sign-out-alt" aria-hidden="true"></i>{" "}
+            <span>Sign out</span>
           </button>
         </div>
       </div>
@@ -204,10 +212,10 @@ const Chat = (props) => {
         </div>
         <ScrollToBottom className="messages">
           <ul>
-            {messages.map((msg) => (
-              <li className={msg.senderId === currentUser.id ? "sent" : "replies"}>
+            {messages.map((msg, index) => (
+              <li key={index} className={msg.senderId === currentUser.id ? "sent" : "replies"}>
                 {msg.senderId !== currentUser.id && (
-                  <img src={activeContact.avatar} alt="" />
+                  <img src={activeContact?.avatar ? getImage(activeContact?.avatar) : dog} alt="" />
                 )}
                 <p>{msg.content}</p>
               </li>

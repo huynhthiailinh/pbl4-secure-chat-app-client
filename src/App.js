@@ -13,10 +13,14 @@ const App = (props) => {
     <div className="App">
       <BrowserRouter>
         <Switch>
-          <Route exact path="/" render={(props) => <Profile {...props} />} />
           <Route
             exact
-            path="/login"
+            path="/"
+            render={(props) => <Chat {...props} />}
+          />
+          <Route
+            exact
+            path="/signin"
             render={(props) => <Signin {...props} />}
           />
           <Route
@@ -24,8 +28,16 @@ const App = (props) => {
             path="/signup"
             render={(props) => <Signup {...props} />}
           />
-          <Route exact path="/chat" render={(props) => <Chat {...props} />} />
-          <Route exact path="/active-email" render={(props) => <EmailVerification {...props} />} />
+          <Route
+            exact
+            path="/profile"
+            render={(props) => <Profile {...props} />}
+          />
+          <Route
+            exact
+            path="/active-email"
+            render={(props) => <EmailVerification {...props} />}
+          />
         </Switch>
       </BrowserRouter>
     </div>
