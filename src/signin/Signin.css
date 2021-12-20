@@ -23,6 +23,13 @@
 
 .login-input {
   border: none !important;
+  box-shadow: none !important;
+  border-bottom: 1px solid indianred !important;
+}
+
+.login-input:focus {
+  border: none !important;
+  box-shadow: none !important;
   border-bottom: 1px solid indianred !important;
 }
 
@@ -32,6 +39,7 @@
   color: white !important;
   font-weight: 700 !important;
   border-radius: 5px !important;
+  border: none !important;
 }
 
 .login-text {

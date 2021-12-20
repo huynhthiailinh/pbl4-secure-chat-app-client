@@ -87,6 +87,7 @@ const Signin = (props) => {
     login(values)
       .then((response) => {
         localStorage.setItem("accessToken", response.token);
+        localStorage.setItem("user", response);
         setLoggedInUser(response);
         props.history.push("/");
         setLoading(false);
