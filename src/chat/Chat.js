@@ -4,8 +4,8 @@ import {
   getUsers,
   countNewMessages,
   findChatMessages,
-  findChatMessage, getImage,
-} from "../util/ApiUtil";
+  findChatMessage, getImage, getAllUsersForSearch,
+} from "../util/ApiUtil"
 import { useRecoilValue, useRecoilState } from "recoil";
 import {
   loggedInUser,
@@ -15,6 +15,8 @@ import {
 import ScrollToBottom from "react-scroll-to-bottom";
 import "./Chat.css";
 import dog from "./../assets/images/avatars/cho.jpg"
+import $ from "jquery";
+import { useDetectClickOutside } from "react-detect-click-outside"
 
 var stompClient = null;
 const { Search } = Input
@@ -24,15 +26,13 @@ const Chat = (props) => {
   const [contacts, setContacts] = useState([]);
   const [activeContact, setActiveContact] = useRecoilState(chatActiveContact);
   const [messages, setMessages] = useRecoilState(chatMessages);
+  const [accountList, setAccountList] = useState([])
 
   useEffect(() => {
     if (activeContact === undefined) return;
     findChatMessages(currentUser.id, activeContact.id).then((msgs) => {
-      // console.log("xx: ", msgs)
       setMessages(msgs)
-    }
-    );
-    loadContacts();
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeContact]);
 
@@ -42,6 +42,7 @@ const Chat = (props) => {
     }
     connect();
     loadContacts();
+    getAllAccountForSearch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -54,8 +55,6 @@ const Chat = (props) => {
   };
 
   const onConnected = () => {
-    // console.log("connected");
-    // console.log(currentUser);
     stompClient.subscribe(
       "/user/" + currentUser.id + "/queue/messages",
       onMessageReceived
@@ -85,7 +84,7 @@ const Chat = (props) => {
   };
 
   const sendMessage = (msg) => {
-    if (msg.trim() !== "") {
+    if (msg.trim() !== "" && activeContact) {
       const message = {
         senderId: currentUser.id,
         receiverId: activeContact.id,
@@ -121,6 +120,10 @@ const Chat = (props) => {
     );
   };
 
+  const getAllAccountForSearch = () => {
+    getAllUsersForSearch(currentUser.id).then(res => setAccountList(res));
+  }
+
   const profile = () => {
     props.history.push("/profile");
   };
@@ -129,6 +132,29 @@ const Chat = (props) => {
     localStorage.removeItem("accessToken");
     props.history.push("/signin");
   };
+
+  const handleFocusSearch = () => {
+    $('.search-user-wrapper').css('height', '100%');
+    $('.list-search-account').removeClass('hidden');
+  }
+
+  const handleCloseSearchAccount = (e) => {
+    $('.search-user-wrapper').css('height', 'unset');
+    $('.list-search-account').addClass('hidden');
+  }
+
+  const ref = useDetectClickOutside({ onTriggered: handleCloseSearchAccount });
+
+  const addAccountToListContact = (event, account) => {
+    event.preventDefault();
+    if (!contacts.some(item => item.id === account.id)) {
+      setContacts([...contacts, account])
+      setActiveContact(account)
+      setAccountList(accountList.filter(item => item.id !== account.id))
+    }
+    $('.search-user-wrapper').css('height', 'unset');
+    $('.list-search-account').addClass('hidden');
+  }
 
   return (
     <div id="frame">
@@ -161,44 +187,64 @@ const Chat = (props) => {
           </div>
         </div>
         <div id="contacts">
-          <Search
-            className="search"
-            placeholder="Search someone.."
-            allowClear
-          />
-          <ScrollToBottom>
-            <ul>
-              {contacts.map((contact, index) => (
-                <li
-                  key={index}
-                  onClick={() => setActiveContact(contact)}
-                  className={
-                    activeContact && contact.id === activeContact.id
-                      ? "contact active"
-                      : "contact"
-                  }
-                >
-                  <div className="wrap">
-                    <span className="contact-status online"></span>
-                    <img
-                      id={contact.id}
-                      src={contact.avatar ? getImage(contact.avatar) : dog}
-                      alt=""
-                      className="contact-img" />
-                    <div className="meta">
-                      <div className="name">{contact.fullName}</div>
-                      {contact.newMessages !== undefined &&
+          <div className="search-user-wrapper" ref={ref}>
+            <Search
+              className="search"
+              placeholder="Search someone.."
+              allowClear
+              onFocus={handleFocusSearch}
+            />
+            <div className="list-search-account hidden">
+              {
+                accountList.map((account, index) => (
+                    <div className="search-account-item" key={index} onClick={(event) => addAccountToListContact(event, account)}>
+                      <img
+                        id={account.id}
+                        src={account.avatar ? getImage(account.avatar) : dog}
+                        alt=""
+                        className="contact-img" />
+                      <div>{account.fullName}</div>
+                    </div>
+                  )
+                )
+              }
+            </div>
+          </div>
+          <div className="list-user">
+            <ScrollToBottom>
+              <ul>
+                {contacts.map((contact, index) => (
+                  <li
+                    key={index}
+                    onClick={() => setActiveContact(contact)}
+                    className={
+                      activeContact && contact.id === activeContact.id
+                        ? "contact active"
+                        : "contact"
+                    }
+                  >
+                    <div className="wrap">
+                      <span className="contact-status online"></span>
+                      <img
+                        id={contact.id}
+                        src={contact.avatar ? getImage(contact.avatar) : dog}
+                        alt=""
+                        className="contact-img" />
+                      <div className="meta">
+                        <div className="name">{contact.fullName}</div>
+                        {contact.newMessages !== undefined &&
                         contact.newMessages > 0 && (
                           <p className="preview">
                             {contact.newMessages} new messages
                           </p>
                         )}
+                      </div>
                     </div>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </ScrollToBottom>
+                  </li>
+                ))}
+              </ul>
+            </ScrollToBottom>
+          </div>
         </div>
         <div id="bottom-bar">
           <button id="addcontact" onClick={profile}>

@@ -86,6 +86,17 @@ export function getUsers(accountId) {
   });
 }
 
+export function getAllUsersForSearch(currentId) {
+  if (!localStorage.getItem("accessToken")) {
+    return Promise.reject("No access token set.");
+  }
+
+  return request({
+    url: AUTH_SERVICE + "accounts?currentId=" + currentId,
+    method: "GET",
+  });
+}
+
 export function countNewMessages(senderId, receiverId) {
   if (!localStorage.getItem("accessToken")) {
     return Promise.reject("No access token set.");

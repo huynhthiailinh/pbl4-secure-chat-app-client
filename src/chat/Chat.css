@@ -313,9 +313,48 @@ span.status-circle:before {
 }
 
 #frame #sidepanel #contacts {
-  height: 74%;
-  overflow-y: scroll;
+  height: 79%;
+  overflow-y: auto;
   overflow-x: hidden;
+  position: relative;
+}
+
+#frame #sidepanel #contacts .search-user-wrapper {
+  position: absolute;
+  height: unset;
+  width: 100%;
+  padding: 10px 0;
+}
+
+#frame #sidepanel #contacts .search-user-wrapper .list-search-account {
+  width: calc(100% - 10px);
+  height: calc(100% - 56px);
+  position: absolute;
+  top: 56px;
+  left: 5px;
+  z-index: 1;
+  background-color: #dadada;
+}
+
+#frame #sidepanel #contacts .search-user-wrapper .list-search-account.hidden {
+  display: none;
+}
+
+#frame #sidepanel #contacts .search-user-wrapper .list-search-account .search-account-item {
+  display: flex;
+  align-items: center;
+  padding: 20px 15px;
+}
+
+#frame #sidepanel #contacts .search-user-wrapper .list-search-account .search-account-item img {
+  width: 32px;
+  height: 32px;
+  border-radius: 100%;
+  margin-right: 10px;
+}
+
+#frame #sidepanel #contacts .list-user {
+  padding-top: 55px;
 }
 
 #frame #sidepanel #contacts .search {
@@ -434,7 +473,7 @@ span.status-circle:before {
 }
 
 #frame #sidepanel #bottom-bar {
-  height: 15%;
+  height: 10%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -515,8 +554,8 @@ span.status-circle:before {
   color: #435f7a;
 }
 #frame .content .messages {
-  height: 74%;
-  overflow-y: scroll;
+  height: 79%;
+  overflow-y: auto;
   overflow-x: hidden;
   width: 100%;
   padding: 5px;
@@ -595,7 +634,7 @@ span.status-circle:before {
   bottom: 0 !important;
   width: 100%;
   z-index: 99;
-  padding: 10px;
+  padding: 15px;
 }
 #frame .content .message-input .wrap {
   position: relative;
@@ -605,9 +644,9 @@ span.status-circle:before {
 #frame .content .message-input .wrap input {
   float: left;
   width: calc(100% - 51px);
+  height: 50px;
   border: 1px solid indianred;
   border-radius: 5px;
-  font-size: 0.8em;
   color: #32465a;
   font-size: 16px;
   padding: 10px;
@@ -633,7 +672,7 @@ span.status-circle:before {
   float: right;
   cursor: pointer;
   width: 50px;
-  height: 47.14px;
+  height: 50px;
   border-radius: 5px;
   border: 1px solid indianred;
   color: indianred;
