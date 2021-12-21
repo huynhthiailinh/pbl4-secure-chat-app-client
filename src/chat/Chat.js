@@ -27,6 +27,7 @@ const Chat = (props) => {
   const [activeContact, setActiveContact] = useRecoilState(chatActiveContact);
   const [messages, setMessages] = useRecoilState(chatMessages);
   const [accountList, setAccountList] = useState([])
+  const [accountSearchList, setAccountSearchList] = useState([])
 
   useEffect(() => {
     if (activeContact === undefined) return;
@@ -121,7 +122,11 @@ const Chat = (props) => {
   };
 
   const getAllAccountForSearch = () => {
-    getAllUsersForSearch(currentUser.id).then(res => setAccountList(res));
+    getAllUsersForSearch(currentUser.id)
+      .then(res => {
+        setAccountList(res)
+        setAccountSearchList(res)
+      });
   }
 
   const profile = () => {
@@ -141,6 +146,14 @@ const Chat = (props) => {
   const handleCloseSearchAccount = (e) => {
     $('.search-user-wrapper').css('height', 'unset');
     $('.list-search-account').addClass('hidden');
+  }
+
+  const handleChangeSearch = (e) => {
+    const value = e.target.value;
+    const newAccountSearchList = accountList.filter(account => {
+      return account.fullName.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "").includes(value.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, ""));
+    });
+    setAccountSearchList(newAccountSearchList);
   }
 
   const ref = useDetectClickOutside({ onTriggered: handleCloseSearchAccount });
@@ -193,19 +206,20 @@ const Chat = (props) => {
               placeholder="Search someone.."
               allowClear
               onFocus={handleFocusSearch}
+              onChange={handleChangeSearch}
             />
             <div className="list-search-account hidden">
               {
-                accountList.map((account, index) => (
-                    <div className="search-account-item" key={index} onClick={(event) => addAccountToListContact(event, account)}>
-                      <img
-                        id={account.id}
-                        src={account.avatar ? getImage(account.avatar) : dog}
-                        alt=""
-                        className="contact-img" />
-                      <div>{account.fullName}</div>
-                    </div>
-                  )
+                accountSearchList.map((account, index) => (
+                  <div className="search-account-item" key={index} onClick={(event) => addAccountToListContact(event, account)}>
+                    <img
+                      id={account.id}
+                      src={account.avatar ? getImage(account.avatar) : dog}
+                      alt=""
+                      className="contact-img" />
+                    <div>{account.fullName}</div>
+                  </div>
+                )
                 )
               }
             </div>
@@ -233,11 +247,11 @@ const Chat = (props) => {
                       <div className="meta">
                         <div className="name">{contact.fullName}</div>
                         {contact.newMessages !== undefined &&
-                        contact.newMessages > 0 && (
-                          <p className="preview">
-                            {contact.newMessages} new messages
-                          </p>
-                        )}
+                          contact.newMessages > 0 && (
+                            <p className="preview">
+                              {contact.newMessages} new messages
+                            </p>
+                          )}
                       </div>
                     </div>
                   </li>
