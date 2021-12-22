@@ -141,6 +141,9 @@ const Signin = (props) => {
             placeholder="Password"
           />
         </Form.Item>
+        <a className="forgot-password" href="/forgot-password">
+          Forgot password?
+        </a>
         <Form.Item>
           <Button
             shape="round"

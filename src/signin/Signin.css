@@ -49,3 +49,17 @@
 .login-text:hover {
   color: #e74c3c;
 }
+
+.forgot-password {
+  color: indianred;
+  font-size: small;
+  display: flex;
+  margin-top: -15px;
+  margin-bottom: 20px;
+  transition: all 0.3s ease-in-out;
+}
+
+.forgot-password:hover {
+  color: indianred;
+  text-decoration: underline;
+}
