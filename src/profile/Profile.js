@@ -107,11 +107,8 @@ const Profile = (props) => {
           layout='vertical'
           style={{ display: showEditProfile ? "block" : "none" }}
         >
-          <Form.Item label="Username">
-            <Input placeholder="input username" value={currentUser.username} />
-          </Form.Item>
-          <Form.Item label="Email">
-            <Input placeholder="input email" value={currentUser.email} />
+          <Form.Item label="FullName">
+            <Input placeholder="input full name" value={currentUser.fullName} />
           </Form.Item>
           <Form.Item>
             <div className="button-group">
