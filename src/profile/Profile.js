@@ -6,7 +6,7 @@ import { EditOutlined, LogoutOutlined, MessageOutlined } from "@ant-design/icons
 import "./Profile.css";
 import cho from "./../../src/assets/images/avatars/cho.jpg"
 import ImgCrop from 'antd-img-crop'
-import { getImage, uploadAvatar, changePassword } from "../util/ApiUtil"
+import { getImage, uploadAvatar, changeFullName, changePassword } from "../util/ApiUtil"
 
 const { Meta } = Card;
 
@@ -42,6 +42,26 @@ const Profile = (props) => {
     })
   }
 
+  const onChangeFullName = (data) => {
+    changeFullName({
+      accountId: currentUser.id,
+      fullName: data.fullName
+    })
+      .then(() => {
+        notification.success({
+          message: "Success",
+          description: "You have successfully changed your full name."
+        })
+        props.history.push("/signin")
+      })
+      .catch((error) => {
+        notification.error({
+          message: "Error",
+          description: error.message || "Sorry! Something went wrong. Please try again!"
+        })
+      })
+  }
+
   const onChangePassword = (data) => {
     changePassword({
       accountId: currentUser.id,
@@ -50,18 +70,16 @@ const Profile = (props) => {
       .then(() => {
         notification.success({
           message: "Success",
-          description:
-            "You have successfully changed your password. Please return to sign in.",
-        });
-        props.history.push("/signin");
+          description: "You have successfully changed your password. Please return to sign in."
+        })
+        props.history.push("/signin")
       })
       .catch((error) => {
         notification.error({
           message: "Error",
-          description:
-            error.message || "Sorry! Something went wrong. Please try again!",
-        });
-      });
+          description: error.message || "Sorry! Something went wrong. Please try again!"
+        })
+      })
   }
 
   const Description = () => {
@@ -122,19 +140,20 @@ const Profile = (props) => {
           description={<Description />}
         />
         <div className="button-group">
-          <button onClick={toggleEditProfile}>{showEditProfile ? 'Close Edit Profile' : 'Edit Profile'}</button>
+          <button onClick={toggleEditProfile}>{showEditProfile ? 'Close Edit Full Name' : 'Edit Full Name'}</button>
           <button onClick={toggleChangePassword}>{showChangePassword ? 'Close Change Password' : 'Change Password'}</button>
         </div>
         <Form
           layout='vertical'
           style={{ display: showEditProfile ? "block" : "none" }}
+          onFinish={onChangeFullName}
         >
-          <Form.Item label="FullName">
-            <Input placeholder="input full name" value={currentUser.fullName} />
+          <Form.Item label="Full Name:" name="fullName">
+            <Input placeholder="input full name" defaultValue={currentUser.fullName} />
           </Form.Item>
           <Form.Item>
             <div className="button-group">
-              <button>Save</button>
+              <button htmlType="submit">Save</button>
               <button>Cancel</button>
             </div>
           </Form.Item>

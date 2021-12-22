@@ -154,6 +154,18 @@ export function uploadAvatar(body) {
     .then((response) => response.text())
 }
 
+export function changeFullName(body) {
+  if (!localStorage.getItem("accessToken")) {
+    return Promise.reject("No access token set");
+  }
+
+  return request({
+    url: AUTH_SERVICE + "accounts/change-full-name",
+    method: "PUT",
+    body: JSON.stringify(body),
+  });
+}
+
 export function changePassword(body) {
   if (!localStorage.getItem("accessToken")) {
     return Promise.reject("No access token set");
