@@ -272,12 +272,16 @@ const Chat = (props) => {
         </div>
       </div>
       <div className="content">
-        <div className="contact-profile">
-          <img
-            src={activeContact?.avatar ? getImage(activeContact?.avatar) : dog}
-            alt="" className="active-img" />
-          <div>{activeContact && activeContact.fullName}</div>
-        </div>
+        {activeContact && (
+          <div className="contact-profile">
+            <img
+              src={activeContact.avatar ? getImage(activeContact.avatar) : dog}
+              alt=""
+              className="active-img"
+            />
+            <div>{activeContact.fullName}</div>
+          </div>
+        )}
         <ScrollToBottom className="messages">
           <ul>
             {messages.map((msg, index) => (
