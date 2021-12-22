@@ -20,7 +20,7 @@ const ForgotPassword = (props) => {
           <Input
             className="forgot-password-input"
             size="large"
-            prefix={<MailOutlined className="site-form-item-icon" />}
+            prefix={<MailOutlined className="forgot-password-icon" />}
             placeholder="Email"
           />
         </Form.Item>
