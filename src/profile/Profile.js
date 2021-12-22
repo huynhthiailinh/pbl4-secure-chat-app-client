@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Card, Avatar, Form, Input, Upload } from "antd";
+import { Card, Avatar, Form, Input, Upload, notification, Button } from "antd";
 import { useRecoilState } from "recoil";
 import { loggedInUser } from "../atom/globalState";
 import { EditOutlined, LogoutOutlined, MessageOutlined } from "@ant-design/icons";
 import "./Profile.css";
 import cho from "./../../src/assets/images/avatars/cho.jpg"
 import ImgCrop from 'antd-img-crop'
-import { getImage, uploadAvatar } from "../util/ApiUtil"
+import { getImage, uploadAvatar, changePassword } from "../util/ApiUtil"
 
 const { Meta } = Card;
 
@@ -40,6 +40,28 @@ const Profile = (props) => {
       data.avatar = res
       setLoggedInUser(data)
     })
+  }
+
+  const onChangePassword = (data) => {
+    changePassword({
+      accountId: currentUser.id,
+      password: data.newPassword
+    })
+      .then(() => {
+        notification.success({
+          message: "Success",
+          description:
+            "You have successfully changed your password. Please return to sign in.",
+        });
+        props.history.push("/signin");
+      })
+      .catch((error) => {
+        notification.error({
+          message: "Error",
+          description:
+            error.message || "Sorry! Something went wrong. Please try again!",
+        });
+      });
   }
 
   const Description = () => {
@@ -120,17 +142,45 @@ const Profile = (props) => {
         <Form
           layout='vertical'
           style={{ display: showChangePassword ? "block" : "none" }}
+          onFinish={onChangePassword}
         >
-          <Form.Item label="Current password">
-            <Input placeholder="input current password" type="password" />
+          <Form.Item
+            label="New password"
+            name="newPassword"
+            rules={[
+              { required: true, message: "Password is required!" },
+              { min: 6, message: "Password must be minimum 6 characters!"}
+            ]}
+          >
+            <Input
+              placeholder="input new password"
+              type="password"
+            />
           </Form.Item>
-          <Form.Item label="New password">
-            <Input placeholder="input new password" type="password" />
+          <Form.Item
+            label="Confirm password"
+            name="confirmPassword"
+            rules={[
+              { required: true, message: "Password is required!" },
+              ({ getFieldValue }) => ({
+                validator(rule, value) {
+                  if (!value || getFieldValue('newPassword') === value) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject('The two passwords that you entered do not match!');
+                },
+              }),
+            ]}
+          >
+            <Input
+              placeholder="confirm new password"
+              type="password"
+            />
           </Form.Item>
           <Form.Item>
             <div className="button-group">
-              <button>Save</button>
-              <button>Cancel</button>
+              <Button htmlType="submit">Save</Button>
+              <Button>Cancel</Button>
             </div>
           </Form.Item>
         </Form>

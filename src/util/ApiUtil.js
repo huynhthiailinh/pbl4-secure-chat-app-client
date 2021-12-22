@@ -154,6 +154,18 @@ export function uploadAvatar(body) {
     .then((response) => response.text())
 }
 
+export function changePassword(body) {
+  if (!localStorage.getItem("accessToken")) {
+    return Promise.reject("No access token set");
+  }
+
+  return request({
+    url: AUTH_SERVICE + "accounts/change-password",
+    method: "PUT",
+    body: JSON.stringify(body),
+  });
+}
+
 export function getImage(url) {
   return PUBLIC_SERVICE + "images/getImage/" + url
 }
