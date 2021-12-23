@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, message, Input, Upload } from "antd";
+import { Button, message, Input, Upload, Modal } from "antd";
 import {
   getUsers,
   countNewMessages,
@@ -169,6 +169,54 @@ const Chat = (props) => {
     $('.list-search-account').addClass('hidden');
   }
 
+  const [previewVisible, setPreviewVisible] = useState(false)
+  const [previewImage, setPreviewImage] = useState('')
+  const [fileList, setFileList] = useState([])
+  const [previewTitle, setPreviewTitle] = useState('')
+
+  const getBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = error => reject(error);
+    });
+  }
+
+  const handleCancel = () => {
+    setPreviewVisible(false)
+  }
+
+  const handlePreview = async file => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
+    }
+    setPreviewImage(file.url || file.preview)
+    setPreviewTitle(file.name || file.url.split('/').pop())
+    setPreviewVisible(true)
+  }
+
+  const handleChange = ({ fileList }) => {
+    setFileList(fileList)
+  }
+
+  // const uploadButton = (
+  //   <Upload>
+  //     <Button
+  //       className="send-button"
+  //       icon={<i className="far fa-image" aria-hidden="true"></i>}
+  //     />
+  //   </Upload>
+  // )
+
+  const uploadButton = (
+    <div className="send-button">
+      <i className="far fa-image" aria-hidden="true"></i>
+      {/* <PlusOutlined /> */}
+      {/* <div style={{ marginTop: 8 }}>Upload</div> */}
+    </div>
+  )
+
   return (
     <div id="frame">
       <div id="sidepanel">
@@ -296,12 +344,23 @@ const Chat = (props) => {
         </ScrollToBottom>
         <div className="message-input">
           <div className="wrap">
-            <Upload>
-              <Button
-                className="send-button"
-                icon={<i className="far fa-image" aria-hidden="true"></i>}
-              />
+            <Upload
+              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+              listType="picture-card"
+              fileList={fileList}
+              onPreview={handlePreview}
+              onChange={handleChange}
+            >
+              {fileList.length >= 8 ? null : uploadButton}
             </Upload>
+            <Modal
+              visible={previewVisible}
+              title={previewTitle}
+              footer={null}
+              onCancel={handleCancel}
+            >
+              <img alt="example" style={{ width: '100%' }} src={previewImage} />
+            </Modal>
             <input
               className="write-message-input"
               name="user_input"
