@@ -646,6 +646,11 @@ span.status-circle:before {
   position: relative;
   display: flex;
   gap: 10px;
+  align-items: flex-end;
+}
+
+#frame .content .message-input .wrap .ant-upload.ant-upload-select-picture-card {
+  margin: 0;
 }
 #frame .content .message-input .wrap input {
   float: left;
@@ -674,7 +679,7 @@ span.status-circle:before {
 #frame .content .message-input .wrap .attachment:hover {
   opacity: 1;
 }
-#frame .content .message-input .wrap button {
+#frame .content .message-input .wrap .send-button {
   float: right;
   cursor: pointer;
   width: 50px;
@@ -682,17 +687,28 @@ span.status-circle:before {
   border-radius: 5px;
   border: 1px solid indianred;
   color: indianred;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 @media screen and (max-width: 735px) {
-  #frame .content .message-input .wrap button {
+  #frame .content .message-input .wrap .send-button {
     padding: 16px 0;
   }
 }
-#frame .content .message-input .wrap button:hover {
+#frame .content .message-input .wrap .send-button:hover {
   background: #ffccbc;
 }
-#frame .content .message-input .wrap button:focus {
+#frame .content .message-input .wrap .send-button:focus {
   outline: none;
 }
 
+#frame .content .message-input .wrap .ant-upload-picture-card-wrapper {
+  width: auto;
+}
 
+#frame .content .message-input .wrap .ant-upload.ant-upload-select-picture-card {
+  width: auto;
+  height: auto;
+  border: none;
+}
