@@ -178,6 +178,28 @@ export function changePassword(body) {
   });
 }
 
+export function forgotPassword(params) {
+  return request({
+    url: PUBLIC_SERVICE + "forgot-password?email=" + params.email,
+    method: "POST",
+  });
+}
+
+export function resetPassword(token) {
+  return request({
+    url: PUBLIC_SERVICE + "reset-password?token=" + token,
+    method: "GET",
+  });
+}
+
+export function savePassword(body) {
+  return request({
+    url: PUBLIC_SERVICE + "save-password",
+    method: "PUT",
+    body: JSON.stringify(body),
+  });
+}
+
 export function getImage(url) {
   return PUBLIC_SERVICE + "images/getImage/" + url
 }
