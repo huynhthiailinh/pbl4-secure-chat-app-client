@@ -17,6 +17,7 @@ import "./Chat.css";
 import dog from "./../assets/images/avatars/cho.jpg"
 import $ from "jquery";
 import { useDetectClickOutside } from "react-detect-click-outside"
+import Axios from "axios"
 
 var stompClient = null;
 const { Search } = Input
@@ -98,6 +99,35 @@ const Chat = (props) => {
       const newMessages = [...messages];
       newMessages.push(message);
       setMessages(newMessages);
+    }
+
+    if (msg.trim() === "" && fileList.length > 0) {
+      fileList.forEach(file => {
+        const formData = new FormData()
+        formData.append('file', file.originFileObj)
+        formData.append('upload_preset', 'sweetagram')
+        formData.append('api_key', '195611112789657')
+        Axios.post('https://api.cloudinary.com/v1_1/bongudth/image/upload', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
+          .then(res => {
+            const message = {
+              senderId: currentUser.id,
+              receiverId: activeContact.id,
+              senderName: currentUser.name,
+              receiverName: activeContact.name,
+              content: res.data.url,
+            };
+            stompClient.send("/app/chat", {}, JSON.stringify(message));
+
+            const newMessages = [...messages];
+            newMessages.push(message);
+            setMessages(newMessages);
+            setFileList([])
+          })
+      })
     }
   };
 
@@ -196,24 +226,21 @@ const Chat = (props) => {
     setPreviewVisible(true)
   }
 
-  const handleChange = ({ fileList }) => {
-    setFileList(fileList)
+  const handleChange = (files) => {
+    setFileList(files)
   }
 
-  // const uploadButton = (
-  //   <Upload>
-  //     <Button
-  //       className="send-button"
-  //       icon={<i className="far fa-image" aria-hidden="true"></i>}
-  //     />
-  //   </Upload>
-  // )
+  const isUrlImage = (text) => {
+    return text.startsWith('http') && text.endsWith('.jpg')
+  }
+
+  const isUrlFile = (text) => {
+    return text.startsWith('http') && (text.endsWith('.pdf') || text.endsWith('.doc') || text.endsWith('.docx'))
+  }
 
   const uploadButton = (
     <div className="send-button">
       <i className="far fa-image" aria-hidden="true"></i>
-      {/* <PlusOutlined /> */}
-      {/* <div style={{ marginTop: 8 }}>Upload</div> */}
     </div>
   )
 
@@ -335,9 +362,13 @@ const Chat = (props) => {
             {messages.map((msg, index) => (
               <li key={index} className={msg.senderId === currentUser.id ? "sent" : "replies"}>
                 {msg.senderId !== currentUser.id && (
-                  <img src={activeContact?.avatar ? getImage(activeContact?.avatar) : dog} alt="" />
+                  <img className="avatar-chat" src={activeContact?.avatar ? getImage(activeContact?.avatar) : dog} alt="" />
                 )}
-                <p>{msg.content}</p>
+                {isUrlImage(msg.content) ?
+                  (<img src={msg.content} alt="" className="msg-image" />) :
+                  isUrlFile(msg.content) ?
+                    (<a href={msg.content} target="_blank" rel="noopener noreferrer"><p>Download</p></a>) :
+                    (<p>{msg.content}</p>)}
               </li>
             ))}
           </ul>
@@ -345,13 +376,15 @@ const Chat = (props) => {
         <div className="message-input">
           <div className="wrap">
             <Upload
-              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
               listType="picture-card"
               fileList={fileList}
               onPreview={handlePreview}
-              onChange={handleChange}
+              onChange={(event) => {
+                handleChange(event.fileList)
+              }}
             >
-              {fileList.length >= 8 ? null : uploadButton}
+              {/* {uploadButton} */}
+              {fileList.length > 9 ? null : uploadButton}
             </Upload>
             <Modal
               visible={previewVisible}
