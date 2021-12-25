@@ -1,6 +1,6 @@
-const AUTH_SERVICE = "http://localhost:8080/api/";
-const PUBLIC_SERVICE = "http://localhost:8080/api/public/";
-const CHAT_SERVICE = "http://localhost:8080";
+const AUTH_SERVICE = "https://sweetagram-server.vercel.app/api/";
+const PUBLIC_SERVICE = "https://sweetagram-server.vercel.app/api/public/";
+const CHAT_SERVICE = "https://sweetagram-server.vercel.app";
 
 const request = (options) => {
   const headers = new Headers();
