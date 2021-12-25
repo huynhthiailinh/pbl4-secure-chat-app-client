@@ -1,6 +1,6 @@
-const AUTH_SERVICE = "https://167.172.91.39:8888/api/";
-const PUBLIC_SERVICE = "https://167.172.91.39:8888/api/public/";
-const CHAT_SERVICE = "https://167.172.91.39:8888";
+const AUTH_SERVICE = "http://167.172.91.39:8888/api/";
+const PUBLIC_SERVICE = "http://167.172.91.39:8888/api/public/";
+const CHAT_SERVICE = "http://167.172.91.39:8888";
 
 const request = (options) => {
   const headers = new Headers();
